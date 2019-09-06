@@ -1,0 +1,14 @@
+// VERİ ÇEKME
+
+<script>
+  function bilgiyazdir() { <!– fonksiyonumuzu oluşturduk –>
+    $.ajax({
+      type: 'post', <!–Post işlemi olduğunu belirtir. –>
+      url: 'islem.php', <!– post gönderilecek sayfamız yine aynı dizinde –>
+      data: $('#veri-formu').serialize(), <!– bu kısım formumuzun adı –>
+      success: function(result) {
+          $('#sonuc').html(result); <!– gelen veriyi sonuc idsine atadık –>
+      }
+    });
+  }
+</script>
