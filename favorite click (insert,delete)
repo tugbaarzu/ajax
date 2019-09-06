@@ -1,0 +1,59 @@
+//buttona tıklandığında veritabanına kayıt etsin bir daha tıklandığında veritabanından silsin.
+
+//html
+
+<button type="button" id="btn1" 
+    onclick="<? if(isset($satir_favori_ilan["gayrimenkul"]) && _KULLANICI_DOGRULA_ ){?>
+                        favoriSil(this,<?=$satir['kod']?>);
+                <?}elseif (!_KULLANICI_DOGRULA_){?>
+                        favoriYok();
+                <?}else {?>
+                        favoriEkle(this,<?=$satir['kod']?>);
+                <?}?> " 
+                class="like ease-1st-layout ease-slow" title="İzlediklerime ekle/kaldır.">
+    <i class="icon icon-lg icon-heart-fill idselect"></i>
+    <i class="icon icon-lg icon-heart "></i>
+</button>
+
+
+function favoriEkle(a,gayrimenkulid) {
+    var that = $(a);
+    $.ajax({
+        url: '/ayar.php',
+        type: 'POST',
+        data: {'islem': 'favoriilan', 'gayrimenkulid': gayrimenkulid},
+        success: function (result) {
+            if (result) {
+                that.attr('onclick', 'favoriSil(this, '+ gayrimenkulid +')');
+            }
+        }
+    });
+}
+
+function favoriSil(a,gayrimenkulid) {
+    var that = $(a);
+    $.ajax({
+        url: '/ayar.php',
+        type: 'POST',
+        data: {'islem': 'favoriilan_', 'gayrimenkulid': gayrimenkulid},
+        success: function (result) {
+            if (result) {
+                that.attr('onclick', 'favoriEkle(this, '+ gayrimenkulid +')');
+            }
+        }
+    });
+}
+
+function favoriYok() {
+    $.ajax({
+        url: '/ayar.php',
+        type: 'POST',
+        success: function (result) {
+            if (result) {
+                alert(result);
+            }
+        }
+    });
+}
+
+
